@@ -39,7 +39,9 @@ class Person:
             self.hp = 0
         return self.hp
 
+    #   In this case dmg is the amount of healing points added to HP
     def heal(self, dmg):
+        # current HP + amount of healing points of the spell
         self.hp += dmg
         if self.hp > self.maxhp:
             self.hp = self.maxhp

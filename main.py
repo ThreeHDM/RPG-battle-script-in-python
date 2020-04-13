@@ -54,9 +54,15 @@ while running:
         #   We reduce the mp passing the cost variable as parameter
         player.reduce_mp(spell.cost)
 
-        #   Enemy takes magic damage
-        enemy.take_damage(magic_dmg)
-        print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
+        #   white magic heals
+        if spell.type == "white":
+            #   Here the magic_dmg is the amount of HP added to current HP.
+            player.heal(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " heals for", str(magic_dmg), "HP" + bcolors.ENDC)
+        elif spell.type == "black":
+            #   Enemy takes magic damage
+            enemy.take_damage(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
 
     #   Enemy attacks
     enemy_choice = 1
