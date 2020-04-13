@@ -20,7 +20,9 @@ class Person:
         self.hp = hp
         self.maxmp = mp
         self.mp = mp
+        #   attack low
         self.atkl = atk - 10
+        #   attack high
         self.atkh = atk + 10
         self.df = df
         # Dictionary of different magic spells
@@ -32,7 +34,9 @@ class Person:
         return random.randrange(self.atkl, self.atkh)
 
     def generate_spell_damage(self, i):
+        #   Magic low
         mgl = self.magic[i]["dmg"] - 5
+        #   Magic high
         mgh = self.magic[i]["dmg"] + 5
         return random.randrange(mgl, mgh)
 
@@ -60,7 +64,7 @@ class Person:
     def get_spell_name(self, i):
         return self.magic[i]["name"]
 
-    def get_spell_mp(self, i):
+    def get_spell_mp_cost(self, i):
         return self.magic[i]["cost"]
 
     def choose_action(self):
@@ -74,5 +78,5 @@ class Person:
         i = 1
         print("Magic")
         for spell in self.magic:
-            print(str(i) + ":", spell["name"], "(cost:", str(spell["mp"]) + ")")
+            print(str(i) + ":", spell["name"], "(cost:", str(spell["cost"]) + ")")
             i += 1
