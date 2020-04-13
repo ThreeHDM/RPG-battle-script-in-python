@@ -1,5 +1,5 @@
 import random
-
+from .magic import Spell
 
 class bcolors:
     HEADER = '\033[95m'
@@ -25,7 +25,7 @@ class Person:
         #   attack high
         self.atkh = atk + 10
         self.df = df
-        # Dictionary of different magic spells
+        # List of objects of instantiated Spells
         self.magic = magic
         self.actions = ["Attack", "Magic"]
 
@@ -33,18 +33,16 @@ class Person:
         #   Dynamic amount of damage
         return random.randrange(self.atkl, self.atkh)
 
-    def generate_spell_damage(self, i):
-        #   Magic low
-        mgl = self.magic[i]["dmg"] - 5
-        #   Magic high
-        mgh = self.magic[i]["dmg"] + 5
-        return random.randrange(mgl, mgh)
-
     def take_damage(self, dmg):
         self.hp -= dmg
         if self.hp < 0:
             self.hp = 0
         return self.hp
+
+    def heal(self, dmg):
+        self.hp += dmg
+        if self.hp > self.maxhp:
+            self.hp = self.maxhp
 
     def get_hp(self):
         return self.hp
@@ -61,12 +59,6 @@ class Person:
     def reduce_mp(self, cost):
         self.mp -= cost
 
-    def get_spell_name(self, i):
-        return self.magic[i]["name"]
-
-    def get_spell_mp_cost(self, i):
-        return self.magic[i]["cost"]
-
     def choose_action(self):
         i = 1
         print("Actions")
@@ -78,5 +70,5 @@ class Person:
         i = 1
         print("Magic")
         for spell in self.magic:
-            print(str(i) + ":", spell["name"], "(cost:", str(spell["cost"]) + ")")
+            print(str(i) + ":", spell.name, "(cost:", str(spell.cost) + ")")
             i += 1
