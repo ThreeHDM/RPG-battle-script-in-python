@@ -24,7 +24,9 @@ hielixer = Item("Mega-elixer", "elixer", "Fully restores party's HP/MP", 9999)
 grenade = Item("Granade", "attack", "Deals 500 damage", 500)
 
 player_spells = [fire, thunder, blizzard, meteor, cure, cura]
-player_items = [potion, hipotion, superpotion, elixer, hielixer, grenade]
+player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity": 5},
+                {"item": superpotion, "quantity": 5}, {"item": elixer, "quantity": 5},
+                {"item": hielixer, "quantity": 2}, {"item": grenade, "quantity": 5}]
 
 # Instantiation of the Person Class. We pass a list of objects to magic
 player = Person(460, 65, 60, 34, player_spells, player_items)
@@ -49,6 +51,7 @@ while running:
         dmg = player.generate_damage()
         enemy.take_damage(dmg)
         print("You attacked for", dmg, "points of damage")
+    #   The player chose magic
     elif index == 1:
         #   We list the magic spells using choose_magic method
         player.choose_magic()
@@ -81,7 +84,7 @@ while running:
             #   Enemy takes magic damage
             enemy.take_damage(magic_dmg)
             print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
-
+    #   The player chose item
     elif index == 2:
         player.choose_item()
         item_choice = int(input("Choose item: ")) - 1
@@ -89,12 +92,26 @@ while running:
         if item_choice == -1:
             continue
 
-        item = player.items[item_choice]
+        item = player.items[item_choice]["item"]
+
+        #   We check if the user has no more left
+        if player.items[item_choice]["quantity"] == 0:
+            print(bcolors.FAIL + "\n" + "No " + item.name + " left..." + bcolors.ENDC)
+            continue
+
+        #   We reduce the item by 1
+        player.items[item_choice]["quantity"] -= 1
 
         if item.type == "potion":
             player.heal(item.prop)
             print(bcolors.OKGREEN + "\n" + item.name + " heals for", str(item.prop), "HP" + bcolors.ENDC)
-
+        elif item.type == "elixer":
+            player.hp = player.maxhp
+            player.mp = player.maxmp
+            print(bcolors.OKGREEN + "\n" + item.name + " fully restores HP/MP." + bcolors.ENDC)
+        elif item.type == "attack":
+            enemy.take_damage(item.prop)
+            print(bcolors.FAIL + "\n" + item.name + " deals", str(item.prop), "points of damage" + bcolors.ENDC)
     elif index == 3:
         break
 
