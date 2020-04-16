@@ -12,9 +12,78 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
+class GameArt:
+
+    def __init__(self):
+        self.dragon = """
+    
+                                         ==(W{==========-      /===-                        
+                                          ||  (.--.)         /===-_---~~~~~~~~~------____  
+                                          | \_,|**|,__      |===-~___                _,-' `
+                             -==\\        `\ ' `--'   ),    `//~\\   ~~~~`---.___.-~~      
+                         ______-==|        /`\_. .__/\ \    | |  \\           _-~`         
+                   __--~~~  ,-/-==\\      (   | .  |~~~~|   | |   `\        ,'             
+                _-~       /'    |  \\     )__/==0==-\<>/   / /      \      /               
+              .'        /       |   \\      /~\___/~~\/  /' /        \   /'                
+             /  ____  /         |    \`\.__/-~~   \  |_/'  /          \/'                  
+            /-'~    ~~~~~---__  |     ~-/~         ( )   /'        _--~`                   
+                              \_|      /        _) | ;  ),   __--~~                        
+                                '~~--_/      _-~/- |/ \   '-~ \                            
+                               {\__--_/}    / \\_>-|)<__\      \                           
+                               /'   (_/  _-~  | |__>--<__|      |                          
+                              |   _/) )-~     | |__>--<__|      |                          
+                              / /~ ,_/       / /__>---<__/      |                          
+                             o-o _//        /-~_>---<__-~      /                           
+                             (^(~          /~_>---<__-      _-~                            
+                            ,/|           /__>--<__/     _-~                               
+                         ,//('(          |__>--<__|     /                  .----_          
+                        ( ( '))          |__>--<__|    |                 /' _---_~\        
+                     `-)) )) (           |__>--<__|    |               /'  /     ~\`\      
+                    ,/,'//( (             \__>--<__\    \            /'  //        ||      
+                  ,( ( ((, ))              ~-__>--<_~-_  ~--____---~' _/'/        /'       
+                `~/  )` ) ,/|                 ~-_~>--<_/-__       __-~ _/                  
+              ._-~//( )/ )) `                    ~~-'_/_/ /~~~~~~~__--~                    
+               ;'( ')/ ,)(                              ~~~~~~~~~~                         
+              ' ') '( (/                                                                   
+                '   '  `                            
+            """
+        self.title = """
+        
+                               (                               (                             
+              *   )   )        )\ )                            )\ ) (                        
+            ` )  /(( /(   (   (()/(  (      ) (  (            (()/( )\   ) (      (  (       
+             ( )(_))\()) ))\   /(_)) )(  ( /( )\))( (   (      /(_)|(_| /( )\ )  ))\ )(  (   
+            (_(_()|(_)\ /((_) (_))_ (()\ )(_)|(_))\ )\  )\ )  (_))  _ )(_)|()/( /((_|()\ )\  
+            |_   _| |(_|_))    |   \ ((_|(_)_ (()(_|(_)_(_/(  / __|| ((_)_ )(_)|_))  ((_|(_) 
+              | | | ' \/ -_)   | |) | '_/ _` / _` / _ \ ' \)) \__ \| / _` | || / -_)| '_(_-< 
+              |_| |_||_\___|   |___/|_| \__,_\__, \___/_||_|  |___/|_\__,_|\_, \___||_| /__/ 
+                                             |___/                         |__/              
+        """
+        self.fight_title = """
+                                                                          
+  *   )   )        (                )    )     (                          
+` )  /(( /(   (    )\ ) (  (  (  ( /( ( /(   ( )\    (  (  ( (            
+ ( )(_))\()) ))\  (()/( )\ )\))( )\()))\())  )((_)  ))\ )\))()\  (    (   
+(_(_()|(_)\ /((_)  /(_)|(_|(_))\((_)\(_))/  ((_)_  /((_|(_))((_) )\ ) )\  
+|_   _| |(_|_))   (_) _|(_)(()(_) |(_) |_    | _ )(_))  (()(_|_)_(_/(((_) 
+  | | | ' \/ -_)   |  _|| / _` || ' \|  _|   | _ \/ -_)/ _` || | ' \)|_-< 
+  |_| |_||_\___|   |_|  |_\__, ||_||_|\__|   |___/\___|\__, ||_|_||_|/__/ 
+                          |___/                        |___/              
+"""
+
+    def print_dragon(self):
+        print(self.dragon)
+
+    def print_title(self):
+        print(self.title)
+
+    def print_fight_title(self):
+        print(self.fight_title)
+
+
 class Person:
     #   STATS OF THE PLAYER
-    def __init__(self, hp, mp, atk, df, magic, items):
+    def __init__(self, name, hp, mp, atk, df, magic, items):
         #   we set a maximum hp points
         self.maxhp = hp
         self.hp = hp
@@ -30,6 +99,7 @@ class Person:
         # List of items
         self.items = items
         self.actions = ["Attack", "Magic", "Items", "Exit Game"]
+        self.name = name
 
     def generate_damage(self):
         #   Dynamic amount of damage
@@ -65,21 +135,42 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print("\n" + bcolors.OKBLUE + bcolors.BOLD + "ACTIONS:" + bcolors.ENDC)
+        print("\n"+ "    " + bcolors.BOLD + self.name + bcolors.ENDC)
+        print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    ACTIONS:" + bcolors.ENDC)
         for item in self.actions:
-            print("    " + str(i) + ":", item)
+            print("        " + str(i) + ":", item)
             i += 1
 
     def choose_magic(self):
         i = 1
-        print("\n" + bcolors.OKBLUE + bcolors.BOLD + "MAGIC:" + bcolors.ENDC)
+        print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    MAGIC:" + bcolors.ENDC)
         for spell in self.magic:
-            print("    " + str(i) + ":", spell.name, "(cost:", str(spell.cost) + ")")
+            print("        " + str(i) + ":", spell.name, "(cost:", str(spell.cost) + ")")
             i += 1
 
     def choose_item(self):
         i = 1
-        print("\n" + bcolors.OKGREEN + bcolors.BOLD + "ITEMS" + bcolors.ENDC)
+        print("\n" + bcolors.OKGREEN + bcolors.BOLD + "    ITEMS" + bcolors.ENDC)
         for item in self.items:
-            print("    " + str(i) + ".", item["item"].name + ":", item["item"].description, " (x" + str(item["quantity"]) + ")")
+            print("        " + str(i) + ".", item["item"].name + ":", item["item"].description,
+                  " (x" + str(item["quantity"]) + ")")
             i += 1
+
+    def get_stats(self):
+        print("\n")
+
+        # Add spaces to name
+        name_length = len(self.name)
+        n_spaces = 26 - name_length
+        spaces = ''
+        i = 0
+        while i < n_spaces:
+            spaces += " "
+            i = i + 1
+
+        print("                           HP " +
+              str(self.hp) + "/" + str(self.maxhp) + "                         MP " + str(self.mp) +
+              "/" + str(self.maxmp))
+        print("                            _________________________           __________")
+        print(bcolors.BOLD + self.name + ":" + spaces + "|" + bcolors.OKGREEN + "////////////////////     " +
+              bcolors.ENDC + bcolors.BOLD + "|         |" + bcolors.OKBLUE + "//////////" + bcolors.ENDC + "|")
