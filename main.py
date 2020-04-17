@@ -20,19 +20,19 @@ art.print_dragon()
 
 
 #   Create Black Magic
-fire = Spell("Fire", 10, 100, "black")
-thunder = Spell("Thunder", 10, 100, "black")
-blizzard = Spell("Blizzard", 10, 100, "black")
-meteor = Spell("Meteor", 20, 200, "black")
-quake = Spell("Quake", 12, 120, "black")
+fire = Spell("Fire", 25, 600, "black")
+thunder = Spell("Thunder", 25, 600, "black")
+blizzard = Spell("Blizzard", 25, 600, "black")
+meteor = Spell("Meteor", 40, 1200, "black")
+quake = Spell("Quake", 14, 140, "black")
 
 #   Create White Magic
-cure = Spell("Cure", 12, 120, "white")
-cura = Spell("Cura", 18, 200, "white")
+cure = Spell("Cure", 25, 620, "white")
+cura = Spell("Cura", 32, 1500, "white")
 
 #   Create some Items
 potion = Item("Potion", "potion", "Heals 50 HP", 50)
-hipotion = Item("Hi-potion", "potion", "Heals 100 HP", 100)
+hipotion = Item("Hi-potion", "potion", "Heals 1000 HP", 1000)
 superpotion = Item("Super Potion", "potion", "Heals 500 HP", 500)
 elixer = Item("Elixer", "elixer", "Fully restors HP/MP of one parte member", 9999)
 hielixer = Item("Mega-elixer", "elixer", "Fully restores party's HP/MP", 9999)
@@ -45,10 +45,10 @@ player_items = [{"item": potion, "quantity": 15}, {"item": hipotion, "quantity":
                 {"item": hielixer, "quantity": 2}, {"item": grenade, "quantity": 5}]
 
 # Instantiation of the Person Class. We create 3 players. We pass a list of objects to magic
-player1 = Person("Alasmarath", 3260, 65, 60, 34, player_spells, player_items)
-player2 = Person("Faragoth", 4160, 65, 60, 34, player_spells, player_items)
-player3 = Person("Geralt Of Rivia", 3089, 65, 60, 34, player_spells, player_items)
-enemy = Person("Dragon", 1200, 65, 45, 25, [], [])
+player1 = Person("Alasmarath", 3260, 132, 300, 34, player_spells, player_items)
+player2 = Person("Faragoth", 4160, 65, 188, 311, player_spells, player_items)
+player3 = Person("Geralt Of Rivia", 3089, 288, 60, 34, player_spells, player_items)
+enemy = Person("Dragon", 11200, 500, 525, 25, [], [])
 
 #   We create a list of players
 players = [player1, player2, player3]

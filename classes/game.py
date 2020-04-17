@@ -135,7 +135,7 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print("\n"+ "    " + bcolors.BOLD + self.name + bcolors.ENDC)
+        print("\n" + "    " + bcolors.BOLD + self.name + bcolors.ENDC)
         print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    ACTIONS:" + bcolors.ENDC)
         for item in self.actions:
             print("        " + str(i) + ":", item)
@@ -168,9 +168,34 @@ class Person:
             spaces += " "
             i = i + 1
 
+        # Calculate the progress bar
+        hp_bar = ""
+        #   We divide by 4 because the HP bar has 25 characters which is 1/4 of 100
+        bar_ticks = (self.hp / self.maxhp) * 100 / 4
+
+        mp_bar = ""
+        mp_ticks = (self.mp / self.maxmp) * 100 / 10
+
+        while mp_ticks > 0:
+            mp_bar += "/"
+            mp_ticks -= 1
+
+        while len(mp_bar) < 10:
+            mp_bar += " "
+
+        while bar_ticks > 0:
+            #   We add a "/" until we run out of bar_ticks
+            hp_bar += "/"
+            bar_ticks -= 1
+
+        while len(hp_bar) < 25:
+            #   We add spaces until we complete the bar with 25 chars (ticks + spaces)
+            hp_bar += " "
+
+
         print("                           HP " +
               str(self.hp) + "/" + str(self.maxhp) + "                         MP " + str(self.mp) +
               "/" + str(self.maxmp))
         print("                            _________________________           __________")
-        print(bcolors.BOLD + self.name + ":" + spaces + "|" + bcolors.OKGREEN + "////////////////////     " +
-              bcolors.ENDC + bcolors.BOLD + "|         |" + bcolors.OKBLUE + "//////////" + bcolors.ENDC + "|")
+        print(bcolors.BOLD + self.name + ":" + spaces + "|" + bcolors.OKGREEN + hp_bar + bcolors.ENDC +
+              bcolors.BOLD + "|         |" + bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")
