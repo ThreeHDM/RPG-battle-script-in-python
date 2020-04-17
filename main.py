@@ -140,7 +140,7 @@ while running:
                 print(bcolors.OKGREEN + "\n" + item.name + " heals for", str(item.prop), "HP" + bcolors.ENDC)
             elif item.type == "elixer":
 
-                if item.name == "MegaElixer":
+                if item.name == "Mega-elixer":
                     #   We Heal all the players
                     for i in players:
                         i.hp = i.maxhp
