@@ -192,10 +192,37 @@ class Person:
             #   We add spaces until we complete the bar with 25 chars (ticks + spaces)
             hp_bar += " "
 
+        hp_string = str(self.hp) + "/" + str(self.maxhp)
+        current_hp = ""
 
-        print("                           HP " +
-              str(self.hp) + "/" + str(self.maxhp) + "                         MP " + str(self.mp) +
-              "/" + str(self.maxmp))
+        #   We check againt the longest the string can be, which is 9
+        if len(hp_string) < 9:
+            decreased = 9 - len(hp_string)
+
+            while decreased > 0:
+                current_hp += " "
+                decreased -= 1
+
+            current_hp += hp_string
+        else:
+            current_hp = hp_string
+
+        mp_string = str(self.mp) + "/" + str(self.maxmp)
+        current_mp = ""
+
+        #   7 is max assuming that we have 6 numbers and the "/"
+        if len(mp_string) < 7:
+            decreased = 7 - len(mp_string)
+
+            while decreased > 0:
+                current_mp += " "
+                decreased -= 1
+
+            current_mp += mp_string
+        else:
+            current_mp = mp_string
+
+        print("                           HP " + current_hp + "                         MP " + current_mp)
         print("                            _________________________           __________")
         print(bcolors.BOLD + self.name + ":" + spaces + "|" + bcolors.OKGREEN + hp_bar + bcolors.ENDC +
               bcolors.BOLD + "|         |" + bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")
