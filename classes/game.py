@@ -156,7 +156,27 @@ class Person:
                   " (x" + str(item["quantity"]) + ")")
             i += 1
 
+    def choose_target(self, enemies):
+        i = 1
+        print("\n" + bcolors.FAIL + bcolors.BOLD + "    TARGET:" + bcolors.ENDC)
+        for enemy in enemies:
+            if enemy.get_hp != 0:
+                print("        " + str(i) + "." + enemy.name)
+                i += 1
+        choice = int(input("    Choose target:")) - 1
+        return choice
+
     def get_enemy_stats(self):
+        print("\n")
+        # Add spaces to name
+        name_length = len(self.name)
+        n_spaces = 26 - name_length
+        spaces = ''
+        i = 0
+        while i < n_spaces:
+            spaces += " "
+            i = i + 1
+
         hp_bar = ""
         bar_ticks = self.hp / self.maxhp * 100 / 2
 
@@ -184,7 +204,7 @@ class Person:
 
         print("                           HP " + current_hp)
         print("                            __________________________________________________")
-        print(bcolors.BOLD + bcolors.FAIL + self.name + bcolors.ENDC + ":                    " + "|" + bcolors.BOLD +
+        print(bcolors.BOLD + bcolors.FAIL + self.name + ":" + spaces + bcolors.ENDC + "|" + bcolors.BOLD +
               bcolors.FAIL + hp_bar + bcolors.ENDC + "|")
 
     def get_stats(self):
@@ -226,7 +246,7 @@ class Person:
         hp_string = str(self.hp) + "/" + str(self.maxhp)
         current_hp = ""
 
-        #   We check againt the longest the string can be, which is 9
+        #   We check against the longest the string can be, which is 9
         if len(hp_string) < 9:
             decreased = 9 - len(hp_string)
 
@@ -257,3 +277,19 @@ class Person:
         print("                            _________________________           __________")
         print(bcolors.BOLD + self.name + ":" + spaces + "|" + bcolors.OKGREEN + hp_bar + bcolors.ENDC +
               bcolors.BOLD + "|         |" + bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")
+
+    def choose_enemy_spell(self):
+        magic_choice = random.randrange(0, len(self.magic))
+        spell = self.magic[magic_choice]
+        magic_dmg = spell.generate_damage()
+
+        pct = self.hp / self.maxhp * 100
+
+        #   if the magic points are less than the spell's cost or the spell type is white and life is grater than
+        #   fifty per cent
+        if self.mp < spell.cost or (spell.type == "white" and pct > 50):
+            # print("el costo del spell es:", str(spell.cost))
+            # print("el MP del NPC es:", str(self.mp))
+            return self.choose_enemy_spell()
+        else:
+            return spell, magic_dmg
