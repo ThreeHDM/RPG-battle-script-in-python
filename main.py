@@ -7,18 +7,19 @@ import random
 art = GameArt()
 art.print_title()
 
-start_game = True
+start_game = False
 
 while not start_game:
     user_input = input(str("Do you want to start the game? y/n:"))
     if user_input == "y":
         start_game = True
-    else:
+    elif user_input == "n":
         sys.exit("You are a coward! Bye")
+    else:
+        print(user_input, "is not a valid option. Please write y or n")
 
 art.print_fight_title()
 art.print_dragon()
-
 
 #   Create Black Magic
 fire = Spell("Fire", 25, 600, "black")
@@ -66,9 +67,20 @@ i = 0
 
 print(bcolors.FAIL + bcolors.BOLD + "AN ENEMY ATTACKS!" + bcolors.ENDC)
 
+start_battle = False
+
+while not start_battle:
+    user_input = input("Run (r) or attack (a):")
+    if user_input == "a":
+        start_battle = True
+    elif user_input == "r":
+        sys.exit("You are a coward! Bye")
+    else:
+        print(user_input, "is not a valid option. Please write y or n")
+
 #   Battle Loop
 while running:
-    print("===========================================================")
+    art.print_line()
     for player in players:
         player.get_stats()
 
@@ -79,11 +91,19 @@ while running:
 
     for player in players:
         player.choose_action()
-        choice = input("    Choose action:")
+        correct_option = False
+
+        while not correct_option:
+            choice = input("\n    Choose action: ")
+            if choice == "1" or choice == "2" or choice == "3" or choice == "4":
+                correct_option = True
+            else:
+                print(choice, "is not a valid option. Please choose one of the numbers in the list")
+
         #   We reduce the input by 1
-        print("Your Choice was" + str(choice))
+        # print("Your Choice was" + str(choice))
         index = int(choice) - 1
-        print("index is" + str(index))
+        # print("index is" + str(index))
 
         #   The player chose atk
         if index == 0:
@@ -91,7 +111,8 @@ while running:
             #   We return the index number of the enemy and save it
             enemy = player.choose_target(enemies)
             enemies[enemy].take_damage(dmg)
-            print("You attacked", enemies[enemy].name, "for", dmg, "points of damage")
+            print("\n", bcolors.OKBLUE + bcolors.BOLD, " You attacked", enemies[enemy].name, "for", dmg,
+                  "points of damage", bcolors.ENDC)
 
             if enemies[enemy].get_hp() == 0:
                 #   We delete the enemy from the list because it was defeated
@@ -101,11 +122,16 @@ while running:
         elif index == 1:
             #   We list the magic spells using choose_magic method
             player.choose_magic()
-            #   We capture user input and withdraw 1
-            magic_choice = int(input("    Choose Magic:")) - 1
 
-            if magic_choice == -1:
-                continue
+            correct_option = False
+
+            while not correct_option:
+                #   We capture user input and withdraw 1
+                magic_choice = int(input("    Choose Magic: ")) - 1
+                if magic_choice == 0 or magic_choice == 1 or magic_choice == 2 or magic_choice == 3 or magic_choice == 4 or magic_choice == 5:
+                    correct_option = True
+                else:
+                    print(magic_choice + 1, "is not a valid option. Please choose one of the numbers in the list")
 
             spell = player.magic[magic_choice]
             magic_dmg = spell.generate_damage()
@@ -133,19 +159,25 @@ while running:
                 enemies[enemy].take_damage(magic_dmg)
 
                 print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "points of damage to "
-                + enemies[enemy].name + bcolors.ENDC)
+                      + enemies[enemy].name + bcolors.ENDC)
 
                 if enemies[enemy].get_hp() == 0:
                     #   We delete the enemy from the list because it was defeated
                     print(enemies[enemy].name + " has died.")
                     del enemies[enemy]
+
         #   The player chose item
         elif index == 2:
             player.choose_item()
-            item_choice = int(input("    Choose item: ")) - 1
 
-            if item_choice == -1:
-                continue
+            correct_option = False
+
+            while not correct_option:
+                item_choice = int(input("    Choose item: ")) - 1
+                if item_choice == 0 or item_choice == 1 or item_choice == 2 or item_choice == 3 or item_choice == 4 or item_choice == 5:
+                    correct_option = True
+                else:
+                    print(item_choice + 1, "is not a valid option. Please choose one of the numbers in the list")
 
             item = player.items[item_choice]["item"]
 
@@ -180,13 +212,14 @@ while running:
                 enemy = player.choose_target(enemies)
                 #   Enemy takes item damage
                 enemies[enemy].take_damage(item.prop)
-                print(bcolors.FAIL + "\n" + item.name + " deals", str(item.prop), "points of damage to " + enemies[enemy].name + bcolors.ENDC)
+                print(bcolors.FAIL + "\n" + item.name + " deals", str(item.prop),
+                      "points of damage to " + enemies[enemy].name + bcolors.ENDC)
 
                 if enemies[enemy].get_hp() == 0:
                     #   We delete the enemy from the list because it was defeated
                     print(enemies[enemy].name + " has died.")
                     del enemies[enemy]
-
+        #   The player chose to exit
         elif index == 3:
             sys.exit("You are a coward! Bye")
 
@@ -213,18 +246,20 @@ while running:
 
     print("\n")
     # Enemy attack phase
+    art.print_line()
+    print(bcolors.BOLD, "Enemy's turn", bcolors.ENDC)
     for enemy in enemies:
         #   Enemy chooses what to do
         enemy_choice = random.randrange(0, 2)
 
         #   We Check if the Enemy's HP is enough to cast the most expensive spell, if not it has to choose attack
-        print("El MP del enemigo es:", enemy.get_mp())
+        #   print("El MP del enemigo es:", enemy.get_mp())
         if enemy_choice == 1:
             if enemy.get_mp() < 50:
                 print("Enemy has not enough MP so he decides to attack")
                 enemy_choice = 0
 
-        print("el length del array players es", len(players))
+        #   print("el length del array players es", len(players))
         players_list_length = len(players);
 
         #   Enemy chose to attack
@@ -238,9 +273,10 @@ while running:
                 target = random.randrange(0, players_list_length)
                 enemy_dmg = enemy.generate_damage()
                 #   We pass dmg to the player.take_damage
-                print("el target es: " + str(target))
+                #   print("el target es: " + str(target))
                 players[target].take_damage(enemy_dmg)
-                print(enemy.name, "attacks", players[target].name, "for", enemy_dmg)
+                print("\n" + "    " + bcolors.FAIL, enemy.name, "attacks", players[target].name, "for", enemy_dmg,
+                      bcolors.ENDC)
 
                 if players[target].get_hp() == 0:
                     print(players[target].name + " has died.")
@@ -255,15 +291,15 @@ while running:
         elif enemy_choice == 1:
             spell, magic_dmg = enemy.choose_enemy_spell()
 
-            print("Enemy chose", spell.name, "damage is", magic_dmg)
+            # print("Enemy chose to use Magic! He used", spell.name, "damage is", magic_dmg)
 
             enemy.reduce_mp(spell.cost)
 
-            print("Enemy MP is: " + str(enemy.get_mp()))
+            #   print("Enemy MP is: " + str(enemy.get_mp()))
 
             if spell.type == "white":
                 enemy.heal(magic_dmg)
-                print(bcolors.OKBLUE + spell.name + " heals", enemy.name, "for", str(magic_dmg), "HP" + bcolors.ENDC)
+                print(bcolors.FAIL + spell.name + " heals", enemy.name, "for", str(magic_dmg), "HP" + bcolors.ENDC)
 
             elif spell.type == "black":
 
@@ -275,7 +311,7 @@ while running:
 
                     players[target].take_damage(magic_dmg)
 
-                    print(bcolors.OKBLUE + enemy.name + "'s", spell.name + " deals", str(magic_dmg),
+                    print("\n" + "    " + bcolors.FAIL + enemy.name + "'s", spell.name + " spell deals", str(magic_dmg),
                           "points of damage to "
                           + players[target].name + bcolors.ENDC)
 
@@ -288,4 +324,3 @@ while running:
                         if defeated_players == 2:
                             print(bcolors.FAIL + "Your enemies have defeated you!" + bcolors.ENDC)
                             running = False
-

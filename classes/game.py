@@ -57,7 +57,9 @@ class GameArt:
             |_   _| |(_|_))    |   \ ((_|(_)_ (()(_|(_)_(_/(  / __|| ((_)_ )(_)|_))  ((_|(_) 
               | | | ' \/ -_)   | |) | '_/ _` / _` / _ \ ' \)) \__ \| / _` | || / -_)| '_(_-< 
               |_| |_||_\___|   |___/|_| \__,_\__, \___/_||_|  |___/|_\__,_|\_, \___||_| /__/ 
-                                             |___/                         |__/              
+                                             |___/                         |__/            
+                                             
+             A game by ThreeHDM (Juan Bilardi)  
         """
         self.fight_title = """
                                                                           
@@ -70,6 +72,10 @@ class GameArt:
   |_| |_||_\___|   |_|  |_\__, ||_||_|\__|   |___/\___|\__, ||_|_||_|/__/ 
                           |___/                        |___/              
 """
+        self.line = "\n==============================================================================="
+
+    def print_line(self):
+        print(self.line)
 
     def print_dragon(self):
         print(self.dragon)
@@ -135,6 +141,8 @@ class Person:
 
     def choose_action(self):
         i = 1
+        art = GameArt()
+        art.print_line()
         print("\n" + "    " + bcolors.BOLD + self.name + bcolors.ENDC)
         print("\n" + bcolors.OKBLUE + bcolors.BOLD + "    ACTIONS:" + bcolors.ENDC)
         for item in self.actions:
@@ -163,7 +171,17 @@ class Person:
             if enemy.get_hp != 0:
                 print("        " + str(i) + "." + enemy.name)
                 i += 1
-        choice = int(input("    Choose target:")) - 1
+
+        correct_option = False
+
+        while not correct_option:
+            #   We capture user input and withdraw 1
+            choice = int(input("    Choose target: ")) - 1
+            if choice == 0 or choice == 1 or choice == 2:
+                correct_option = True
+            else:
+                print(choice + 1, "is not a valid option. Please choose one of the numbers in the list")
+
         return choice
 
     def get_enemy_stats(self):
