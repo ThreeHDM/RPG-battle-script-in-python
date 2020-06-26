@@ -4,6 +4,10 @@ from classes.inventory import Item
 import sys
 import random
 
+#Declaramos variables para almacenar los Players/Enemies que van perdiendo
+defeated_enemies = 0
+defeated_players = 0
+
 art = GameArt()
 art.print_title()
 
@@ -117,6 +121,7 @@ while running:
             if enemies[enemy].get_hp() == 0:
                 #   We delete the enemy from the list because it was defeated
                 print(enemies[enemy].name + " has died.")
+                defeated_enemies += 1
                 del enemies[enemy]
         #   The player chose magic
         elif index == 1:
@@ -127,11 +132,15 @@ while running:
 
             while not correct_option:
                 #   We capture user input and withdraw 1
-                magic_choice = int(input("    Choose Magic: ")) - 1
-                if magic_choice == 0 or magic_choice == 1 or magic_choice == 2 or magic_choice == 3 or magic_choice == 4 or magic_choice == 5:
-                    correct_option = True
+                magic_choice = input("    Choose Magic: ")
+                if magic_choice.isdigit():
+                    magic_choice = int(magic_choice) - 1
+                    if magic_choice == 0 or magic_choice == 1 or magic_choice == 2 or magic_choice == 3 or magic_choice == 4 or magic_choice == 5:
+                        correct_option = True
+                    else:
+                        print(magic_choice + 1, "is not a valid option. Please choose one of the numbers in the list")
                 else:
-                    print(magic_choice + 1, "is not a valid option. Please choose one of the numbers in the list")
+                    print(magic_choice, "is not a valid option. Please choose one of the numbers in the list")
 
             spell = player.magic[magic_choice]
             magic_dmg = spell.generate_damage()
@@ -164,6 +173,7 @@ while running:
                 if enemies[enemy].get_hp() == 0:
                     #   We delete the enemy from the list because it was defeated
                     print(enemies[enemy].name + " has died.")
+                    defeated_enemies += 1
                     del enemies[enemy]
 
         #   The player chose item
@@ -173,11 +183,15 @@ while running:
             correct_option = False
 
             while not correct_option:
-                item_choice = int(input("    Choose item: ")) - 1
-                if item_choice == 0 or item_choice == 1 or item_choice == 2 or item_choice == 3 or item_choice == 4 or item_choice == 5:
-                    correct_option = True
+                item_choice = input("    Choose item: ")
+                if item_choice.isdigit():
+                    item_choice = int(item_choice) - 1
+                    if item_choice == 0 or item_choice == 1 or item_choice == 2 or item_choice == 3 or item_choice == 4 or item_choice == 5:
+                        correct_option = True
+                    else:
+                        print(item_choice + 1, "is not a valid option. Please choose one of the numbers in the list")
                 else:
-                    print(item_choice + 1, "is not a valid option. Please choose one of the numbers in the list")
+                    print(item_choice, "is not a valid option. Please choose one of the numbers in the list")
 
             item = player.items[item_choice]["item"]
 
@@ -218,15 +232,15 @@ while running:
                 if enemies[enemy].get_hp() == 0:
                     #   We delete the enemy from the list because it was defeated
                     print(enemies[enemy].name + " has died.")
+                    defeated_enemies += 1
                     del enemies[enemy]
         #   The player chose to exit
         elif index == 3:
             sys.exit("You are a coward! Bye")
 
     #   We check if the battle is over
-    defeated_enemies = 0
-    defeated_players = 0
 
+"""
     for enemy in enemies:
         if enemy.get_hp() == 0:
             defeated_enemies += 1
@@ -234,8 +248,9 @@ while running:
     for player in players:
         if player.get_hp == 0:
             defeated_players += 1
-
+"""
     # We check if player won
+    print("enemigos derrotados: ", defeated_enemies)
     if defeated_enemies == 2:
         print(bcolors.OKGREEN + "You Win!" + bcolors.ENDC)
         running = False
@@ -280,6 +295,7 @@ while running:
 
                 if players[target].get_hp() == 0:
                     print(players[target].name + " has died.")
+                    defeated_players += 1
                     del players[target]
 
                 # We check if enemy won

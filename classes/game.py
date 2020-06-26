@@ -164,6 +164,7 @@ class Person:
                   " (x" + str(item["quantity"]) + ")")
             i += 1
 
+    # lists posible targets
     def choose_target(self, enemies):
         i = 1
         print("\n" + bcolors.FAIL + bcolors.BOLD + "    TARGET:" + bcolors.ENDC)
@@ -175,13 +176,16 @@ class Person:
         correct_option = False
 
         while not correct_option:
-            #   We capture user input and withdraw 1
-            choice = int(input("    Choose target: ")) - 1
-            if choice == 0 or choice == 1 or choice == 2:
-                correct_option = True
+            choice = input("    Choose target: ")
+            if choice.isdigit():
+                #   We capture user input and withdraw 1
+                choice = int(choice) - 1
+                if (choice == 0 or choice == 1 or choice == 2) and choice < len(enemies):
+                    correct_option = True
+                else:
+                    print("    ", choice + 1, "is not a valid option. Please choose one of the numbers in the list")
             else:
-                print(choice + 1, "is not a valid option. Please choose one of the numbers in the list")
-
+                print("    ", choice, "is not a valid option. Please choose one of the numbers in the list")
         return choice
 
     def get_enemy_stats(self):
