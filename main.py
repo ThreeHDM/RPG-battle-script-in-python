@@ -41,7 +41,7 @@ curaga = Spell("Curaga", 50, 6000, "white")
 potion = Item("Potion", "potion", "Heals 50 HP", 50)
 hipotion = Item("Hi-potion", "potion", "Heals 1000 HP", 1000)
 superpotion = Item("Super Potion", "potion", "Heals 500 HP", 500)
-elixir = Item("Elixir", "elixir", "Fully restors HP/MP of one parte member", 9999)
+elixir = Item("Elixir", "elixir", "Fully restors HP/MP of one party member", 9999)
 hielixir = Item("Mega-elixir", "elixir", "Fully restores party's HP/MP", 9999)
 
 grenade = Item("Granade", "attack", "Deals 500 damage", 500)
